@@ -1,25 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from './views/Login.jsx';
 import Signup from './views/Signup.jsx';
+import Navigation from './components/Navigation.jsx';
 
 function App() {
   return (
-    <Router>
-      <div>
-        <nav>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Signup</Link>
-        </nav>
-      </div>
-
+    <div>
+      <Navigation />
       <Routes>
-    <Route path="/login" element={<Login />} />
-    <Route path="/signup" element={<Signup />} />
-    <Route path="/" element={<Login />} />
-</Routes>
-
-    </Router>
+      <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </div>
   );
 }
 

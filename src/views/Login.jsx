@@ -7,9 +7,9 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async () => {
+  const handleLogin = async () => { //promise
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      await auth.signInWithEmailAndPassword(email, password); //wait for resolving the promise
     } catch (error) {
       setError(error.message);
     }
