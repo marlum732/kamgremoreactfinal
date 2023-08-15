@@ -1,34 +1,59 @@
 import React, { useState } from 'react';
-import {Button, FormControl, FormLabel, Input, VStack, Text } from '@chakra-ui/react';
-import { auth} from '../services/firebaseConfig';
+import {
+    VStack,
+    Button,
+    Input,
+    FormControl,
+    FormLabel,
+    Heading,
+    useToast
+} from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { auth, signInWithEmailAndPassword } from '../services/firebaseConfig';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const toast = useToast();
 
-  const handleLogin = async () => { //promise
+    const handleSubmit = async (e) => { //promise
+        e.preventDefault();
+
     try {
-      await auth.signInWithEmailAndPassword(email, password); //wait for resolving the promise
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+            await signInWithEmailAndPassword(auth, email, password); //wait for resolving the promise
+            toast({
+                title: "Logged in successfully.",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+            navigate('/home');
+        } catch (error) {
+            toast({
+                title: "Error logging in.",
+                description: error.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+    };
 
-  return (
-    <VStack spacing={4}>
-      <FormControl id="email">
-        <FormLabel>Email address</FormLabel>
-        <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </FormControl>
-      <FormControl id="password">
-        <FormLabel>Password</FormLabel>
-        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </FormControl>
-      <Button onClick={handleLogin}>Login</Button>
-      {error && <Text color="red.500">{error}</Text>}
-    </VStack>
-  );
+    return (
+        <VStack spacing={4}>
+            <Heading>Login</Heading>
+            <FormControl id="email">
+                <FormLabel>Email address</FormLabel>
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </FormControl>
+            <FormControl id="password">
+                <FormLabel>Password</FormLabel>
+                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </FormControl>
+            <Button onClick={handleSubmit}>Login</Button>
+        </VStack>
+    );
 }
 
 export default Login;

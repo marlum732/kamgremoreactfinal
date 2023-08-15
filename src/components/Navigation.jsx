@@ -1,18 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Box, Button } from '@chakra-ui/react';
 
 function Navigation() {
     return (
-        <nav>
-            <ul>
-                <li>
-                    <Link to="/login">Login</Link>
-                </li>
-                <li>
-                    <Link to="/signup">Signup</Link>
-                </li>
-            </ul>
-        </nav>
+        <Box padding={5} bg="teal.500" display="flex" justifyContent="space-between">
+        <Link to="/home">Home</Link>
+        <Box>
+            <Button as={Link} to="/login" marginRight={5}>
+                Login
+            </Button>
+            <Button as={Link} to="/signup">
+                Signup
+            </Button>
+        </Box>
+    </Box>
     );
 }
 

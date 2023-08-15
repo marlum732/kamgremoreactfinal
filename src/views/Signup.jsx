@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, FormControl, FormLabel, Input, VStack, Flex, Heading } from '@chakra-ui/react';
-import { auth} from '../services/firebaseConfig';
+import { auth, signInWithEmailAndPassword } from '../services/firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function Signup() {
