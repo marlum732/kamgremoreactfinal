@@ -2,6 +2,8 @@ import React from 'react';
 import { Box, Image, Text, Heading, Tag, VStack, HStack } from '@chakra-ui/react';
 
 function EventCard({ event }) {
+    const displayDate = event.date.seconds ? new Date(event.date.seconds * 1000).toLocaleDateString() : event.date;
+
     return (
         <Box 
             key={event.id}
@@ -22,7 +24,7 @@ function EventCard({ event }) {
                     </Tag>
                 ))}
             </HStack>
-            <Text mt={4}>Date: {new Date(event.date.seconds * 1000).toLocaleDateString()}</Text>
+            <Text mt={4}>Date: {displayDate}</Text>
             <Text>Time: {event.time}</Text>
             <Text mt={4} color="blue.500">Price: ${event.price}</Text>
         </Box>
