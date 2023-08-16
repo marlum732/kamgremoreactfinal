@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-    VStack,
-    Button,
-    Input,
-    FormControl,
-    FormLabel,
-    Heading,
-    useToast
-} from '@chakra-ui/react';
+import { VStack, Button, Input, FormControl, FormLabel, Heading, useToast, Flex } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword } from '../services/firebaseConfig';
 
@@ -41,18 +33,20 @@ function Login() {
     };
 
     return (
-        <VStack spacing={4}>
-            <Heading>Login</Heading>
-            <FormControl id="email">
-                <FormLabel>Email address</FormLabel>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </FormControl>
-            <FormControl id="password">
-                <FormLabel>Password</FormLabel>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            </FormControl>
-            <Button onClick={handleSubmit}>Login</Button>
-        </VStack>
+        <Flex width="100vw" height="100vh" justifyContent="center" alignItems="center">
+            <VStack spacing={4}>
+                <Heading>Login</Heading>
+                <FormControl id="email">
+                    <FormLabel>Email address</FormLabel>
+                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </FormControl>
+                <FormControl id="password">
+                    <FormLabel>Password</FormLabel>
+                    <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                </FormControl>
+                <Button onClick={handleSubmit}>Login</Button>
+            </VStack>
+        </Flex>
     );
 }
 

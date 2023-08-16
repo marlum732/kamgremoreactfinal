@@ -1,35 +1,46 @@
-import {
-    Grid,
-    GridItem,
-    Box,
-    useMediaQuery,
-    Text
-  } from "@chakra-ui/react";
+import React, { useState, useEffect } from 'react';
+import { Box, Image, Text, Heading, Tag, VStack, HStack } from '@chakra-ui/react';
+import { fetchEvents } from '../services/eventService';
   
 function HomePage() {
-    const [largeScreen] = useMediaQuery("(min-width: 1024px)");
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        const getEvents = async () => {
+            const fetchedEvents = await fetchEvents();
+            setEvents(fetchedEvents);
+        };
+        
+        getEvents();
+    }, []);
   
     return (
-      <Grid
-        templateAreas={{
-          base: '"main"',
-          lg: '"aside main"',
-        }}
-        templateColumns={{
-          base: "1fr",
-          lg: "200px 1fr",
-        }}
-      >
-        <Box display={largeScreen ? "block" : "none"}>
-          <GridItem area="aside" paddingX={5}>
-          </GridItem>
-        </Box>
-        <GridItem area="main">
-          <Text fontSize="2xl" fontWeight="bold" mb={4}>
-            Home Page
-          </Text>
-        </GridItem>
-      </Grid>
+        <VStack spacing={5} align="center">
+        {events.map(event => (
+            <Box 
+                key={event.id}
+                maxW="sm" 
+                borderWidth="1px" 
+                borderRadius="lg" 
+                overflow="hidden"
+                p={5}
+            >
+                <Image src={event.imageURL} alt={event.name} />
+                <Heading size="md" mt={4}>{event.name}</Heading>
+                <Text mt={2}>{event.summary}</Text>
+                <HStack mt={4} spacing={4}>
+                    {event.tags.map(tag => (
+                        <Tag key={tag} size="md" variant="outline" colorScheme="blue">
+                            {tag}
+                        </Tag>
+                    ))}
+                </HStack>
+                <Text mt={4}>Date: {new Date(event.date.seconds * 1000).toLocaleDateString()}</Text>
+                <Text>Time: {event.time}</Text>
+                <Text mt={4} color="blue.500">Price: ${event.price}</Text>
+            </Box>
+        ))}
+    </VStack>
     );
   }
   
