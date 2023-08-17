@@ -11,11 +11,11 @@ function Signup() {
   
   const navigate = useNavigate();
 
-  const handleSignup = async (e) => { //event
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password); //it waits to returns a resolved promise
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log('User signed up:', user);
       navigate('/login');

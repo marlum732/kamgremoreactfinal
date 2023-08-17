@@ -10,15 +10,15 @@ function HomePage() {
         const getEvents = async () => {
             const fetchedEvents = await fetchEvents();
             setEvents(fetchedEvents);
-            setIsLoading(false); 
+            setIsLoading(false);  
         };
         
         getEvents();
     }, []);
-  
+
     return (
         <EventGrid events={events} isLoading={isLoading} />
     );
-  }
-  
-  export default HomePage;
+}
+
+export default HomePage;
