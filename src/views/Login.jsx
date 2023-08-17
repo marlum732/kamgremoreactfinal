@@ -38,13 +38,13 @@ function Login() {
                 <Heading>Login</Heading>
                 <FormControl id="email">
                     <FormLabel>Email address</FormLabel>
-                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Input type="email" placeholder="Enter your email"  value={email} onChange={(e) => setEmail(e.target.value)} />
                 </FormControl>
                 <FormControl id="password">
                     <FormLabel>Password</FormLabel>
-                    <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <Input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </FormControl>
-                <Button onClick={handleSubmit}>Login</Button>
+                <Button colorScheme="blue" onClick={handleSubmit}>Login</Button>
             </VStack>
         </Flex>
     );

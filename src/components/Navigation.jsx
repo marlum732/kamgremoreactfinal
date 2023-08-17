@@ -7,7 +7,7 @@ function Navigation() {
         <Flex justifyContent="space-between" p={5} bg="blue.500" color="white" align="center">
         <Link to="/home">Home</Link>
         <Box>
-        <Link to="/login" mr={5}>Login</Link>  
+        <Link to="/login" mr={5}>Login</Link> {}
         <Link to="/signup" mr={3}>Signup</Link>
         <Button as={Link} to="/addevent" colorScheme="blue" size="sm"> Add Event </Button>
             </Box>

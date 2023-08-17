@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Button, FormControl, FormLabel, Input, VStack, Textarea, Flex, Grid } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input, VStack, Textarea, Flex, HStack, useToast } from '@chakra-ui/react';
 import { addEvent } from '../services/eventService';
 import TagInput from '../components/TagInput';
+import { useNavigate } from 'react-router-dom';
 
 function EventForm() {
     const [name, setName] = useState('');
@@ -12,13 +13,19 @@ function EventForm() {
     const [imageURL, setImageURL] = useState('');
     const [tags, setTags] = useState([]);
 
+    const navigate = useNavigate();
+    const toast = useToast();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const [year, month, day] = date.split("-");
+        const formattedDate = `${month}/${day}/${year}`;
         
         const eventData = {
             name,
             summary,
-            date,
+            date: formattedDate,
             time,
             price,
             imageURL,
@@ -27,75 +34,61 @@ function EventForm() {
 
         try {
             await addEvent(eventData);
+            toast({
+                title: "Event created.",
+                description: "Your event has been successfully created.",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+            navigate('/home');
         } catch (error) {
             console.error("Error adding event: ", error);
         }
     };
 
     return (
-        <Flex justifyContent="center" alignItems="center" height="100vh" width="100%">
-            <Box width="100%" maxWidth="800px" borderWidth="1px" borderRadius="lg" overflow="hidden" p={6}>
-                <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-                    <FormControl id="name">
+        <Flex height="calc(100vh - 64px)" justify="center" align="center">
+        <Box width="60%" py={8}>
+            <VStack spacing={6} align="start">
+                <HStack spacing={6} width="100%">
+                    <FormControl id="name" width="50%">
                         <FormLabel>Event Name</FormLabel>
-                        <Input 
-                            type="text" 
-                            value={name} 
-                            onChange={(e) => setName(e.target.value)} 
-                        />
+                        <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
                     </FormControl>
-                    
-                    <FormControl id="summary">
-                        <FormLabel>Summary</FormLabel>
-                        <Textarea 
-                            value={summary} 
-                            onChange={(e) => setSummary(e.target.value)} 
-                        />
-                    </FormControl>
-
-                    <FormControl id="date">
+                    <FormControl id="date" width="25%">
                         <FormLabel>Date</FormLabel>
-                        <Input 
-                            type="date" 
-                            value={date} 
-                            onChange={(e) => setDate(e.target.value)} 
-                        />
+                        <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
                     </FormControl>
-
-                    <FormControl id="time">
+                    <FormControl id="time" width="25%">
                         <FormLabel>Time</FormLabel>
-                        <Input 
-                            type="time" 
-                            value={time} 
-                            onChange={(e) => setTime(e.target.value)} 
-                        />
+                        <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
                     </FormControl>
+                </HStack>
+                <FormControl id="summary" width="100%">
+                    
+                        <FormLabel>Summary</FormLabel>
+                        <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} />
+                        </FormControl>
 
-                    <FormControl id="price">
-                        <FormLabel>Price</FormLabel>
-                        <Input 
-                            type="text" 
-                            value={price} 
-                            onChange={(e) => setPrice(e.target.value)} 
-                        />
+                        <HStack spacing={6} width="100%">
+                        <FormControl id="price" width="50%">
+                            <FormLabel>Price</FormLabel>
+                            <Input type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
+                        </FormControl>
+                        <FormControl id="imageURL" width="50%">
+                            <FormLabel>Image URL</FormLabel>
+                            <Input type="url" value={imageURL} onChange={(e) => setImageURL(e.target.value)} />
+                        </FormControl>
+                    </HStack>
+                    <FormControl id="tags" width="100%">
+                        <FormLabel>Tags</FormLabel>
+                        <TagInput tags={tags} setTags={setTags} />
+
+                   
                     </FormControl>
-
-                    <FormControl id="imageURL">
-                        <FormLabel>Image URL</FormLabel>
-                        <Input 
-                            type="url" 
-                            value={imageURL} 
-                            onChange={(e) => setImageURL(e.target.value)} 
-                        />
-                    </FormControl>
-                </Grid>
-
-                <FormControl id="tags" mt={4}>
-                    <FormLabel>Tags</FormLabel>
-                    <TagInput tags={tags} setTags={setTags} />
-                </FormControl>
-
-                <Button mt={4} onClick={handleSubmit}>Add Event</Button>
+                    <Button onClick={handleSubmit}>Add Event</Button>
+                </VStack>
             </Box>
         </Flex>
     );
