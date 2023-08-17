@@ -12,6 +12,7 @@ function EventForm() {
     const [price, setPrice] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [tags, setTags] = useState([]);
+    const [location, setLocation] = useState('');
 
     const navigate = useNavigate();
     const toast = useToast();
@@ -29,7 +30,8 @@ function EventForm() {
             time,
             price,
             imageURL,
-            tags
+            tags,
+            location
         };
 
         try {
@@ -65,6 +67,10 @@ function EventForm() {
                             <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
                         </FormControl>
                     </HStack>
+                    <FormControl id="location" width="100%">
+                        <FormLabel>Location</FormLabel>
+                        <Input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+                    </FormControl>
                     <FormControl id="summary" width="100%">
                         <FormLabel>Summary</FormLabel>
                         <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} />

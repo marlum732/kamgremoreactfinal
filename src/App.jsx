@@ -5,6 +5,7 @@ import Login from './views/Login.jsx';
 import Signup from './views/Signup.jsx';
 import Navigation from './components/Navigation.jsx';
 import EventForm from './views/EventForm';
+import EventDetails from './views/EventDetails';
 import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/addevent" element={<EventForm />} />
+          <Route path="/event/:id" element={<EventDetails />} />
         </Routes>
       </div>
     </ChakraProvider>

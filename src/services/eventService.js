@@ -1,5 +1,5 @@
 import { db } from './firebaseConfig';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, getDoc } from 'firebase/firestore';
 
 export const fetchEvents = async () => {
     const eventsCollection = collection(db, 'events');
@@ -20,4 +20,14 @@ export const addEvent = async (eventData) => {
         console.error("Error adding event: ", error);
         throw error;
     }
+};
+
+//function for more event details
+export const fetchEventById = async (id) => {
+    const eventDoc = doc(db, 'events', id);
+    const eventSnapshot = await getDoc(eventDoc);
+    return {
+        ...eventSnapshot.data(),
+        id: eventSnapshot.id
+    };
 };
