@@ -4,7 +4,7 @@ import EventCard from './EventCard';
 import EventCardSkeleton from './EventCardSkeleton';
 
 function EventGrid({ events, isLoading }) {
-    const skeletons = [1, 2, 3, 4, 5, 6];
+    const skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
 
     return (
         <div>
