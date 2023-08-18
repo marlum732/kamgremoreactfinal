@@ -7,14 +7,16 @@ import Navigation from './components/Navigation.jsx';
 import EventForm from './views/EventForm';
 import EventDetails from './views/EventDetails';
 import { ChakraProvider } from "@chakra-ui/react";
+import { SearchProvider } from './components/SearchContext';
 
 function App() {
   return (
     <ChakraProvider>
+      <SearchProvider>
       <div style={{ width: '100%' }}>
         <Navigation />
         <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -22,6 +24,7 @@ function App() {
           <Route path="/event/:id" element={<EventDetails />} />
         </Routes>
       </div>
+      </SearchProvider>
     </ChakraProvider>
   );
 }
