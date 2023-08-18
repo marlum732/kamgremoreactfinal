@@ -8,7 +8,7 @@ function EventGrid({ events, isLoading }) {
 
     return (
         <div>
-            <Heading size="2xl" mb={5} mt={5} ml={5}>EVENTS</Heading>  {}
+            
             <SimpleGrid
                 columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
                 spacing={6}
