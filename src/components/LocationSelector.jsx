@@ -11,6 +11,9 @@ function LocationSelector({ onSelectLocation, selectedLocation }) {
         {selectedLocation || "Locations"}
       </MenuButton>
       <MenuList>
+        <MenuItem onClick={() => onSelectLocation(null)}>
+          All Locations
+        </MenuItem>
         {locations.map((location) => (
           <MenuItem onClick={() => onSelectLocation(location)} key={location}>
             {location}

@@ -11,6 +11,9 @@ function DateSelector({ onSelectDate, selectedDate }) {
         {selectedDate || "Dates"}
       </MenuButton>
       <MenuList>
+        <MenuItem onClick={() => onSelectDate(null)}>
+          All Dates
+        </MenuItem>
         {dates.map((date) => (
           <MenuItem onClick={() => onSelectDate(date)} key={date}>
             {date}

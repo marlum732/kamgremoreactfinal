@@ -11,6 +11,9 @@ function TagSelector({ onSelectTag, selectedTag }) {
         {selectedTag || "Tags"}
       </MenuButton>
       <MenuList>
+        <MenuItem onClick={() => onSelectTag(null)}>
+          All Tags
+        </MenuItem>
         {tags.map((tag) => (
           <MenuItem onClick={() => onSelectTag(tag)} key={tag}>
             {tag}
