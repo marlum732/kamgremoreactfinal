@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchEventById } from '../services/eventService';
+import { db, collection, doc } from '../services/firebaseConfig';
 import { Box, Image, Text, Heading, Tag, VStack, HStack, Flex } from '@chakra-ui/react';
 import ShareButton from '../components/ShareButton';
+import { getDoc } from "firebase/firestore";
+
 
 const EventDetails = () => {
     const { id } = useParams();
     const [event, setEvent] = useState(null);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         const fetchEvent = async () => {
             try {
                 const eventData = await fetchEventById(id);
                 setEvent(eventData);
+
+                if (eventData.createdBy) {
+                    const userDoc = await getDoc(doc(collection(db, 'users'), eventData.createdBy));
+                    if (userDoc.exists) {
+                        setUsername(userDoc.data().username);
+                    }
+                }
+
             } catch (error) {
                 console.error("Error fetching event details:", error);
             }
@@ -34,7 +46,6 @@ const EventDetails = () => {
             </Box>
         );
     }
-    
 
     const displayDate = event.date.seconds ? new Date(event.date.seconds * 1000).toLocaleDateString() : event.date;
     const displayLocation = typeof event.location === 'object' 
@@ -43,9 +54,10 @@ const EventDetails = () => {
 
     return (
         <Flex p={5} direction="row" align="start">
-<Image src={event.imageURL} alt={event.name} w="50%" h="40rem" mt={-38} objectFit="contain" />
-            <Box maxW="50%" ml={8} >
+            <Image src={event.imageURL} alt={event.name} w="50%" h="40rem" mt={-38} objectFit="contain" />
+            <Box maxW="50%" ml={8}>
                 <Heading size="2xl" mb={4} mt={10}>{event.name}</Heading>
+                <Text fontSize="md" color="gray.600">Created by: {username}</Text>
                 <VStack align="start" spacing={4} mb={8}>
                     <Text fontSize="xl">Date: {displayDate}</Text>
                     <Text fontSize="xl">Location: {displayLocation}</Text>
@@ -63,7 +75,7 @@ const EventDetails = () => {
             </Box>
             <Box mt={4}>
                  <ShareButton url={window.location.href} title={event.name} />
-        </Box>
+            </Box>
         </Flex>
     );
 };

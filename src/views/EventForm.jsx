@@ -3,6 +3,8 @@ import { Box, Button, FormControl, FormLabel, Input, VStack, Textarea, Flex, HSt
 import TagInput from '../components/TagInput';
 import { addEvent } from '../services/eventService';
 import { useNavigate } from 'react-router-dom';
+import { auth } from '../services/firebaseConfig'; 
+
 
 function EventForm() {
     const [name, setName] = useState('');
@@ -31,7 +33,8 @@ function EventForm() {
             price,
             imageURL,
             tags,
-            location
+            location,
+            createdBy: auth.currentUser.uid
         };
 
         try {

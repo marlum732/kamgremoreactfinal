@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, FormControl, FormLabel, Input, VStack, Flex, Heading } from '@chakra-ui/react';
-import { auth, signInWithEmailAndPassword } from '../services/firebaseConfig';
+import { auth, signInWithEmailAndPassword, db, doc, setDoc } from '../services/firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [error, setError] = useState(null);
   
   const navigate = useNavigate();
@@ -17,6 +18,13 @@ function Signup() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
+      const userRef = doc(db, 'users', user.uid);
+      await setDoc(userRef, {
+        username: username,
+        email: email
+    });
+
       console.log('User signed up:', user);
       navigate('/login');
     } catch (err) {
@@ -29,6 +37,14 @@ function Signup() {
     <Flex width="100vw" height="100vh" justifyContent="center" alignItems="center">
     <VStack spacing={4}>
         <Heading>Sign Up</Heading>
+        <FormControl id="username">
+            <FormLabel>Username</FormLabel>
+            <Input 
+              placeholder="Enter your username" 
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </FormControl>
         <FormControl id="email">
           <FormLabel>Email address</FormLabel>
           <Input 
