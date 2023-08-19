@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchEventById } from '../services/eventService';
 import { Box, Image, Text, Heading, Tag, VStack, HStack, Flex } from '@chakra-ui/react';
+import ShareButton from '../components/ShareButton';
 
 const EventDetails = () => {
     const { id } = useParams();
@@ -60,6 +61,9 @@ const EventDetails = () => {
                 </VStack>
                 <Text>{event.summary}</Text>
             </Box>
+            <Box mt={4}>
+                 <ShareButton url={window.location.href} title={event.name} />
+        </Box>
         </Flex>
     );
 };
