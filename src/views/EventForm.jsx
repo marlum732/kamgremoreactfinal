@@ -89,7 +89,7 @@ function EventForm() {
                         <FormLabel>Tags</FormLabel>
                         <TagInput tags={tags} setTags={setTags} />
                     </FormControl>
-                    <Button onClick={handleSubmit}>Add Event</Button>
+                    <Button colorScheme="blue" onClick={handleSubmit}>Add Event</Button>
                 </VStack>
             </Box>
         </Flex>
