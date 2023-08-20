@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Box, Button, FormControl, FormLabel, Input, VStack, Textarea, Flex, HStack, useToast } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input, VStack, Textarea, Flex, HStack, useToast, Select } from '@chakra-ui/react';
 import TagInput from '../components/TagInput';
 import { addEvent } from '../services/eventService';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../services/firebaseConfig'; 
 
+const clubs = ["Pergola", "Alaya", "Tivoli", "Retro", "Bellavita", "Canava"];
 
 function EventForm() {
     const [name, setName] = useState('');
@@ -15,6 +16,7 @@ function EventForm() {
     const [imageURL, setImageURL] = useState('');
     const [tags, setTags] = useState([]);
     const [location, setLocation] = useState('');
+    const [selectedClub, setSelectedClub] = useState('');
 
     const navigate = useNavigate();
     const toast = useToast();
@@ -34,6 +36,7 @@ function EventForm() {
             imageURL,
             tags,
             location,
+            club: selectedClub,
             createdBy: auth.currentUser.uid
         };
 
@@ -74,6 +77,23 @@ function EventForm() {
                         <FormLabel>Location</FormLabel>
                         <Input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
                     </FormControl>
+                    <FormControl id="club" width="100%">
+                        <FormLabel>Club</FormLabel>
+                        <Select placeholder="Select club" value={selectedClub} onChange={(e) => setSelectedClub(e.target.value)}>
+                            {clubs.map((club) => (
+                                <option key={club} value={club}>
+                                    {club}
+                                </option>
+                            ))}
+                            <option value="other">Other</option>
+                        </Select>
+                    </FormControl>
+                    {selectedClub === 'other' && (
+                        <FormControl id="otherClub" width="100%">
+                            <FormLabel>Specify Other Club</FormLabel>
+                            <Input type="text" placeholder="Enter other club name" onChange={(e) => setSelectedClub(e.target.value)} />
+                        </FormControl>
+                    )}
                     <FormControl id="summary" width="100%">
                         <FormLabel>Summary</FormLabel>
                         <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} />

@@ -8,6 +8,8 @@ import TagSelector from '../components/TagSelector';
 import PriceSelector from '../components/PriceSelector';
 import ClubSelector from '../components/ClubSelector';
 import { Heading, Flex } from "@chakra-ui/react";
+import { useAuth } from '../components/AuthContext';  
+
 
 function HomePage() {
     const [events, setEvents] = useState([]);
@@ -20,6 +22,8 @@ function HomePage() {
     const [selectedPriceFilter, setSelectedPriceFilter] = useState(null);
     const [selectedClubs, setSelectedClubs] = useState([]);
 
+
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
         const getEvents = async () => {
@@ -58,7 +62,7 @@ function HomePage() {
 
             if (selectedClubs.length > 0) {
                 filteredEvents = filteredEvents.filter(event => 
-                    selectedClubs.includes(event.location)
+                    selectedClubs.includes(event.club)
                 );
             }
     
@@ -79,7 +83,7 @@ function HomePage() {
                     <DateSelector onSelectDate={setSelectedDate} selectedDate={selectedDate} />
                     <TagSelector onSelectTag={setSelectedTag} selectedTag={selectedTag} />
                     <PriceSelector onSelectPriceFilter={setSelectedPriceFilter} selectedPriceFilter={selectedPriceFilter?.label} />
-                    <ClubSelector onSelectClubs={setSelectedClubs} selectedClubs={selectedClubs} />
+                    {isAuthenticated && <ClubSelector onSelectClubs={setSelectedClubs} selectedClubs={selectedClubs} />}
                 </Flex>
             </Flex>
             <EventGrid events={events} isLoading={isLoading} />
