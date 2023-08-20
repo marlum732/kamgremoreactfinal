@@ -6,6 +6,7 @@ import LocationSelector from '../components/LocationSelector';
 import DateSelector from '../components/DateSelector';
 import TagSelector from '../components/TagSelector';
 import PriceSelector from '../components/PriceSelector';
+import ClubSelector from '../components/ClubSelector';
 import { Heading, Flex } from "@chakra-ui/react";
 
 function HomePage() {
@@ -17,6 +18,8 @@ function HomePage() {
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTag, setSelectedTag] = useState("");
     const [selectedPriceFilter, setSelectedPriceFilter] = useState(null);
+    const [selectedClubs, setSelectedClubs] = useState([]);
+
 
     useEffect(() => {
         const getEvents = async () => {
@@ -53,12 +56,19 @@ function HomePage() {
                 );
             }
 
+            if (selectedClubs.length > 0) {
+                filteredEvents = filteredEvents.filter(event => 
+                    selectedClubs.includes(event.location)
+                );
+            }
+    
+
             setEvents(filteredEvents);
             setIsLoading(false);  
         };
         
         getEvents();
-    }, [searchQuery, selectedLocation, selectedDate, selectedTag, selectedPriceFilter]);
+    }, [searchQuery, selectedLocation, selectedDate, selectedTag, selectedPriceFilter, selectedClubs]);
 
     return (
         <div>
@@ -69,6 +79,7 @@ function HomePage() {
                     <DateSelector onSelectDate={setSelectedDate} selectedDate={selectedDate} />
                     <TagSelector onSelectTag={setSelectedTag} selectedTag={selectedTag} />
                     <PriceSelector onSelectPriceFilter={setSelectedPriceFilter} selectedPriceFilter={selectedPriceFilter?.label} />
+                    <ClubSelector onSelectClubs={setSelectedClubs} selectedClubs={selectedClubs} />
                 </Flex>
             </Flex>
             <EventGrid events={events} isLoading={isLoading} />
