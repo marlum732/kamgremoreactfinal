@@ -17,6 +17,7 @@ function EventForm() {
     const [tags, setTags] = useState([]);
     const [location, setLocation] = useState('');
     const [selectedClub, setSelectedClub] = useState('');
+    const [otherClub, setOtherClub] = useState('');
 
     const navigate = useNavigate();
     const toast = useToast();
@@ -36,7 +37,7 @@ function EventForm() {
             imageURL,
             tags,
             location,
-            club: selectedClub,
+            club: selectedClub === 'other' ? otherClub : selectedClub,
             createdBy: auth.currentUser.uid
         };
 
@@ -57,8 +58,8 @@ function EventForm() {
 
     return (
         <Flex height="calc(100vh - 64px)" justify="center" align="center">
-            <Box width="60%" py={8}>
-                <VStack spacing={6} align="start">
+            <Box width="60%" py={4}>
+                <VStack spacing={4} align="start">
                     <HStack spacing={6} width="100%">
                         <FormControl id="name" width="50%">
                             <FormLabel>Event Name</FormLabel>
@@ -91,7 +92,7 @@ function EventForm() {
                     {selectedClub === 'other' && (
                         <FormControl id="otherClub" width="100%">
                             <FormLabel>Specify Other Club</FormLabel>
-                            <Input type="text" placeholder="Enter other club name" onChange={(e) => setSelectedClub(e.target.value)} />
+                            <Input type="text" placeholder="Enter other club name" onChange={(e) => setOtherClub(e.target.value)} />
                         </FormControl>
                     )}
                     <FormControl id="summary" width="100%">
